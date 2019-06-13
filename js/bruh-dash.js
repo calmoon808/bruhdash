@@ -209,31 +209,18 @@ global.bruhdash = {
   // iterates over elements of a collection and invokes iteratee for each element
   // Note: this should work for arrays and objects
   forEach: function(thing, func) {
-    if(Array.isArray(thing)){
-      for(let i = 0, n = thing.length; i < n; i++){
-        func(thing[i]);
-      }
-    } else if (typeof thing === 'object'){
-      for(let key in thing){
-        func(thing[key]);
-      }
+    for(let key in thing){
+      func(thing[key]);
     }
   },
-
+ 
   // creates an array of values by running each element in collection thru the iteratee
   // Note: this should work for arrays and objects
   map: function(thing, func) {
-    if(Array.isArray(thing)){
-      for(let i = 0, n = thing.length; i < n; i++){
-        thing[i] = func(thing[i]);
-      }
-      return thing;
-    } else if(typeof thing === 'object'){
-      for(let key in thing){
-        thing[key] = func(thing[key]);
-      }
-      return Object.values(thing);
+    for(let key in thing){
+      thing[key] = func(thing[key]);
     }
+    return Object.values(thing);
   },
 
   /*************************
@@ -243,41 +230,23 @@ global.bruhdash = {
   // iterates over elements of a collection and returns all elements that the predicate returns truthy for
   // Note: this should work for arrays and objects
   filter: function(thing, func) {
-    if(Array.isArray(thing)){
-      let newArr = [];
-      for(let i = 0, n = thing.length; i < n; i++){
-        if(func(thing[i])){
-          newArr.push(thing[i]);
-        }
+    let newArr = [];
+    for(let key in thing){
+      if(func(thing[key])){
+        newArr.push(thing[key]);
       }
-      return newArr;
-    } else if(typeof thing === 'object'){
-      let newArr = [];
-      for(let key in thing){
-        if(func(thing[key])){
-          newArr.push(thing[key]);
-        }
-      }
-      return newArr;
     }
+    return newArr;
   },
 
   // Reduces the collection to a value which is the accumulated result of running each element
   // in the collection through an iteratee
   // Note: this should work for arrays and objects
   reduce: function(thing, func) {
-    if(Array.isArray(thing)){
-      let result = 0;
-      for(let i = 0, n = thing.length; i < n; i++){
-        result += func(0, thing[i]);
-      }
-      return result;
-    } else if(typeof thing === 'object'){
-      result = 0;
-      for(let key in thing){
-        result += func(0, thing[key]);
-      }
-      return result;
+    let result = 0;
+    for(let key in thing){
+      result = func(answer, thing[key]);
     }
+    return result;
   }
 };
